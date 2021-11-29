@@ -1,0 +1,21 @@
+version: '2'
+services:
+  sqs:
+    image: s12v/elasticmq
+    ports:
+      - "4566:4566"
+    volumes:
+      - ./src/main/resources/sqs/elasticmq.conf:/etc/elasticmq/elasticmq.conf
+
+  localstack:
+    image: localstack/localstack:latest
+    environment:
+      - AWS_DEFAULT_REGION=ap-southeast-1
+      - EDGE_PORT=4567
+      - SERVICES=dynamodb
+      - KINESIS_PROVIDER=kinesalite
+    ports:
+      - '4567:4567'
+    volumes:
+      - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
