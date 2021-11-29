@@ -1,0 +1,15 @@
+{
+  "TableName": "Event",
+  "KeySchema": [
+    { "AttributeName": "EventId", "KeyType": "HASH" },
+    { "AttributeName": "Message", "KeyType": "RANGE" }
+  ],
+  "AttributeDefinitions": [
+    { "AttributeName": "EventId", "AttributeType": "S" },
+    { "AttributeName": "Message", "AttributeType": "S" }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}

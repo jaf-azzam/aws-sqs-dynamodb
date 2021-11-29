@@ -28,7 +28,6 @@ public class QueueServiceImpl implements QueueService {
     public SendMessageResult sendSqsMessage(String queue, Object message) throws JsonProcessingException {
         String messageAsString = objectMapper.writeValueAsString(message);
         log.info("Writing message {} to queue {}", messageAsString, queue);
-
         //When connected to a real AWS account, only the queue name is required.
         SendMessageResult sendMessageResult = amazonSQSAsync.sendMessage("http://localhost:4566/queue/" + queue, messageAsString);
 
