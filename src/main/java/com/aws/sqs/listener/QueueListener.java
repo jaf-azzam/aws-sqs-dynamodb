@@ -14,19 +14,16 @@ import org.springframework.stereotype.Component;
 public class QueueListener {
 
 
-
+    /*
+        Queue Listner
+        Logs messages to console
+     */
     @SqsListener(value = "http://localhost:4566/000000000000/first-queue", deletionPolicy = SqsMessageDeletionPolicy.ALWAYS)
     public void listenToFirstQueue(String message) {
 
         log.info("Received a message on first queue: {}", message);
 
     }
-
-    @SqsListener(value = "${queue.secondQueue}", deletionPolicy = SqsMessageDeletionPolicy.ALWAYS)
-    public void listenToSecondQueue(MessageObject message) {
-        log.info("Received a message on second queue: {}", message);
-    }
-
 
 
 }

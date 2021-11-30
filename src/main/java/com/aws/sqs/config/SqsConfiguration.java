@@ -23,6 +23,11 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class SqsConfiguration {
 
+
+    /*
+        SQS Builder class
+     */
+
     @Bean
     public AmazonSQSAsync amazonSQS() {
         return AmazonSQSAsyncClientBuilder.standard()

@@ -16,11 +16,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DynamoDBConfiguration {
 
+    /*
+        Mapper for DynamoDB
+     */
     @Bean
     public DynamoDBMapper mapper() {
         return new DynamoDBMapper(amazonDynamoDBConfig());
     }
 
+
+    // Un-used code
     public DynamoDBMapperConfig.TableNameResolver tableNameResolver() {
 
         return new DynamoDBMapperConfig.TableNameResolver() {
@@ -31,13 +36,14 @@ public class DynamoDBConfiguration {
         };
     }
 
+    /*
+        DynamoDB Configuration
+     */
     private AmazonDynamoDB amazonDynamoDBConfig() {
 
         return  AmazonDynamoDBClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", "us-east-2"))
-//                .withCredentials(new AWSStaticCredentialsProvider(new AnonymousAWSCredentials()))
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("test", "test")))
-                .build()
-                ;
+                .build();
     }
 }

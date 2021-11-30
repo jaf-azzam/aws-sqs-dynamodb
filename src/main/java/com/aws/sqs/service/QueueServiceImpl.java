@@ -30,6 +30,7 @@ public class QueueServiceImpl implements QueueService {
     private EventRepository eventRepository;
 
 
+
     public SendMessageResult sendSqsMessage(String queue, Object message) throws JsonProcessingException {
         String messageAsString = objectMapper.writeValueAsString(message);
         log.info("Writing message {} to queue {}", messageAsString, queue);
@@ -37,31 +38,21 @@ public class QueueServiceImpl implements QueueService {
         //When connected to a real AWS account, only the queue name is required.
         SendMessageResult sendMessageResult = amazonSQSAsync.sendMessage("http://localhost:4566/000000000000/first-queue", messageAsString);
 
-
         return sendMessageResult;
     }
 
 
 
 
-
-
     public List<String> receiveMessage(String queue) {
-
-
         ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest("http://localhost:4566/000000000000/first-queue")
                 .withWaitTimeSeconds(15)
                 .withVisibilityTimeout(15)
                 .withMaxNumberOfMessages(10);
-        ReceiveMessageResult messageResult = amazonSQSAsync.receiveMessage(receiveMessageRequest);
-
-
 
         List<Message> listOfMessage = amazonSQSAsync.receiveMessage(receiveMessageRequest).getMessages();
         List<String> messageIdList = new ArrayList<>();
         for(Message msg : listOfMessage) {
-
-
             Event event = new Event();
             event.setBody(msg.getBody());
             event.setAttributes(msg.getAttributes());
@@ -70,10 +61,7 @@ public class QueueServiceImpl implements QueueService {
             event.setMd50OfMessageAttributes(msg.getMD5OfMessageAttributes());
             event.setMd50OfBody(msg.getMD5OfBody());
 
-
             messageIdList.add(eventRepository.saveEvent(event));
-
-            System.out.println(event.toString());
         }
 
         return messageIdList;

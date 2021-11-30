@@ -19,6 +19,9 @@ public class SQSController {
 
     private final QueueService queueService;
 
+    /*
+        Send Messages to queue
+     */
     @PostMapping(path = "/send-message", produces = MediaType.APPLICATION_JSON_VALUE)
     public SendMessageResult sendMessageToQueue(@RequestBody String message) throws JsonProcessingException {
         return queueService.sendSqsMessage("first-queue", message);
@@ -26,6 +29,9 @@ public class SQSController {
 
 
 
+    /*
+         Get Messages from queue
+     */
     @GetMapping(path = "/get-messages", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getDataFromQueueOne() throws JsonProcessingException {
         return queueService.receiveMessage("queue-1");

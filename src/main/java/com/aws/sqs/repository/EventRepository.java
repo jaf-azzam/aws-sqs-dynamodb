@@ -18,6 +18,7 @@ public class EventRepository {
     @Autowired
     private DynamoDBMapper mapper;
 
+
     public String saveEvent(Event event) {
         mapper.save(event);
         return event.getMessageId();
@@ -26,10 +27,10 @@ public class EventRepository {
 
 
     public Event findBymessageId(String messageId) {
-
         return mapper.load(Event.class, messageId);
-
     }
+
+
 
     public String deleteEvent(Event event) {
         mapper.delete(event);
@@ -41,6 +42,7 @@ public class EventRepository {
         mapper.save(event, buildExpression(event));
         return "Event Updated ! ";
     }
+
 
     private DynamoDBSaveExpression buildExpression(Event event) {
         DynamoDBSaveExpression dynamoDBSaveExpression  = new DynamoDBSaveExpression();
