@@ -22,13 +22,13 @@ public class DynamoDBController {
     }
 
     @PostMapping("/add-event")
-    public Event addEvent(@RequestBody Event event) {
-        return eventRepository.savEvent(event);
+    public String addEvent(@RequestBody Event event) {
+        return eventRepository.saveEvent(event);
     }
 
-    @GetMapping("/get-event/{eventId}")
-    public Event getEvent(@RequestParam String eventId) {
-        return eventRepository.findByEventId(eventId);
+    @GetMapping("/get-event/{messageId}")
+    public Event getEvent(@PathVariable String messageId) {
+        return eventRepository.findBymessageId(messageId);
     }
 
     @DeleteMapping("/delete-event")

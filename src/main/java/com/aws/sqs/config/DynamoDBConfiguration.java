@@ -9,6 +9,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,10 +21,20 @@ public class DynamoDBConfiguration {
         return new DynamoDBMapper(amazonDynamoDBConfig());
     }
 
+    public DynamoDBMapperConfig.TableNameResolver tableNameResolver() {
+
+        return new DynamoDBMapperConfig.TableNameResolver() {
+            @Override
+            public String getTableName(Class<?> aClass, DynamoDBMapperConfig dynamoDBMapperConfig) {
+                return "Event";
+            }
+        };
+    }
+
     private AmazonDynamoDB amazonDynamoDBConfig() {
 
         return  AmazonDynamoDBClientBuilder.standard()
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4567", "us-east-2"))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", "us-east-2"))
 //                .withCredentials(new AWSStaticCredentialsProvider(new AnonymousAWSCredentials()))
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("test", "test")))
                 .build()

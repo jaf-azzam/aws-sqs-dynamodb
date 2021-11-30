@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -19,15 +18,17 @@ public class EventRepository {
     @Autowired
     private DynamoDBMapper mapper;
 
-    public Event savEvent(Event event) {
+    public String saveEvent(Event event) {
         mapper.save(event);
-        return event;
+        return event.getMessageId();
     }
 
 
 
-    public Event findByEventId(String eventId) {
-        return mapper.load(Event.class, eventId);
+    public Event findBymessageId(String messageId) {
+
+        return mapper.load(Event.class, messageId);
+
     }
 
     public String deleteEvent(Event event) {
@@ -44,7 +45,7 @@ public class EventRepository {
     private DynamoDBSaveExpression buildExpression(Event event) {
         DynamoDBSaveExpression dynamoDBSaveExpression  = new DynamoDBSaveExpression();
         Map<String, ExpectedAttributeValue> expectedMap = new HashMap<>();
-        expectedMap.put("eventId", new ExpectedAttributeValue(new AttributeValue().withS(event.getEventId())));
+        expectedMap.put("messageId", new ExpectedAttributeValue(new AttributeValue().withS(event.getMessageId())));
 
         dynamoDBSaveExpression.setExpected(expectedMap);
         return dynamoDBSaveExpression;
