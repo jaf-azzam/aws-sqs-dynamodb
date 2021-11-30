@@ -13,20 +13,20 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/test")
+@RequestMapping("/sqs")
 public class SQSController {
 
 
     private final QueueService queueService;
 
-    @PostMapping(path = "/first", produces = MediaType.APPLICATION_JSON_VALUE)
-    public SendMessageResult sendMessageToFirstQueue(@RequestBody String message) throws JsonProcessingException {
+    @PostMapping(path = "/send-message", produces = MediaType.APPLICATION_JSON_VALUE)
+    public SendMessageResult sendMessageToQueue(@RequestBody String message) throws JsonProcessingException {
         return queueService.sendSqsMessage("first-queue", message);
     }
 
 
 
-    @GetMapping(path = "/getMessages", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/get-messages", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getDataFromQueueOne() throws JsonProcessingException {
         return queueService.receiveMessage("queue-1");
     }
